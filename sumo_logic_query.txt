@@ -1,0 +1,8 @@
+/_sourceCategory=webapp
+| parse "path=* " as path
+| parse "response_time_ms=* " as response_time_ms
+| where path = "/api/data"
+| where response_time_ms > 3000
+| timeslice 10m
+| count as slow_requests by _timeslice
+| where slow_requests > 5
